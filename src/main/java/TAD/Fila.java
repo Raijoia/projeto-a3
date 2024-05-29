@@ -9,7 +9,7 @@ public class Fila {
     this.fim = null;
   }
 
-  public void inserir(int item) {
+  public void inserir(String item) {
     NoLista novoNo = new NoLista(item);
     if (inicio == null) {
       inicio = novoNo;
@@ -33,11 +33,11 @@ public class Fila {
     }
   }
 
-  public void mostrarPrimeiro() {
+  public String mostrarPrimeiro() {
     if (inicio != null) {
-      System.out.println("Conteúdo do primeiro nó: " + inicio.item);
+        return inicio.item;
     } else {
-      System.out.println("Fila vazia");
+        return null;
     }
   }
 

@@ -1,11 +1,11 @@
 package TAD;
 
 public class NoLista {
-  int item;
+  String item;
   NoLista anterior;
   NoLista proximo;
 
-  public NoLista(int item) {
+  public NoLista(String item) {
     this.item = item;
     this.anterior = null;
     this.proximo = null;

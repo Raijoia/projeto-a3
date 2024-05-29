@@ -9,7 +9,7 @@ public class Pilha {
     this.atual = null;
   }
 
-  public void inserir(int item) {
+  public void inserir(String item) {
     NoLista novoNo = new NoLista(item);
     if (inicio == null) {
       inicio = novoNo;
@@ -33,11 +33,11 @@ public class Pilha {
     }
   }
 
-  public void mostrarAtual() {
+  public String mostrarAtual() {
     if (atual != null) {
-      System.out.println("Conteúdo do nó atual: " + atual.item);
+        return atual.item;
     } else {
-      System.out.println("Lista Encerrada");
+        return null;
     }
   }
 

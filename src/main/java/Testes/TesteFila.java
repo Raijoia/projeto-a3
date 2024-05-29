@@ -23,7 +23,7 @@ public class TesteFila {
       switch (opcao) {
         case 'a':
           System.out.print("Digite o item a ser inserido: ");
-          int item = scanner.nextInt();
+          String item = scanner.next();
           lista.inserir(item);
           break;
         case 'b':
