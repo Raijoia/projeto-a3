@@ -31,28 +31,36 @@ public class ControleDeFluxo extends javax.swing.JFrame {
         }
         
         for (int i = 0; i < fita.length(); i++) {
-            if(estado == 0 && pilha.mostrarAtual() == null && fila.mostrarPrimeiro().equals("a") || 
-               estado == 0 && pilha.mostrarAtual().equals("a") && fila.mostrarPrimeiro().equals("a") || 
+            if(estado == 0 && pilha.mostrarAtual() == null && fila.mostrarPrimeiro().equals("a") ||
+               estado == 0 && pilha.mostrarAtual() == null && fila.mostrarPrimeiro().equals("b")){
+                pilha.inserir(fila.mostrarPrimeiro());
+                fila.remover();
+                System.out.println("aceito");
+            } else if (estado == 0 && pilha.mostrarAtual() == null && fila.mostrarPrimeiro().equals("c")) {
+                fila.remover();
+                estado = 1;
+                System.out.println("aceito");
+            } else if (estado == 0 && pilha.mostrarAtual().equals("a") && fila.mostrarPrimeiro().equals("a") || 
                estado == 0 && pilha.mostrarAtual().equals("b") && fila.mostrarPrimeiro().equals("a") ||
-               estado == 0 && pilha.mostrarAtual() == null && fila.mostrarPrimeiro().equals("b") ||
                estado == 0 && pilha.mostrarAtual().equals("a") && fila.mostrarPrimeiro().equals("b") ||
                estado == 0 && pilha.mostrarAtual().equals("b") && fila.mostrarPrimeiro().equals("b")){
                 pilha.inserir(fila.mostrarPrimeiro());
                 fila.remover();
-            } else if (estado == 0 && pilha.mostrarAtual() == null && fila.mostrarPrimeiro().equals("c")) {
-                fila.remover();
-                estado = 1;
+                System.out.println("aceito");
             } else if(estado == 0 && pilha.mostrarAtual().equals("a") && fila.mostrarPrimeiro().equals("c")) {
                 estado = 1;
                 pilha.inserir("a");
                 fila.remover();
+                System.out.println("aceito");
             } else if(estado == 0 && pilha.mostrarAtual().equals("b") && fila.mostrarPrimeiro().equals("c")) {
                 estado = 1;
                 pilha.inserir("b");
                 fila.remover();
+                System.out.println("aceito");
             } else if(estado == 1 && pilha.mostrarAtual().equals("a") && fila.mostrarPrimeiro().equals("a") ||
                       estado == 1 && pilha.mostrarAtual().equals("b") && fila.mostrarPrimeiro().equals("b")) {
                 pilha.remover();
+                System.out.println("aceito");
             } else {
                 System.out.println("Nao aceito fila: " + fila.mostrarPrimeiro() + " pilha: " + pilha.mostrarAtual() + " estado: " + estado);
             }
