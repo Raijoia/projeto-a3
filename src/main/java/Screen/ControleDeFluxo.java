@@ -6,6 +6,7 @@ package Screen;
 
 import TAD.Fila;
 import TAD.Pilha;
+import java.util.*;
 
 /**
  *
@@ -18,53 +19,62 @@ public class ControleDeFluxo extends javax.swing.JFrame {
      */
     public ControleDeFluxo() {
         initComponents();
+        notFita.setVisible(false);
     }
     
     public void analisarFita(String fita) {
-        Fila fila = new Fila();
-        Pilha pilha = new Pilha();
-        String[] splitFita = fita.split("");
-        int estado = 0;
-                
-        for (int i = 0; i < fita.length(); i++) {
-            fila.inserir(splitFita[i]);
+        try {
+            Fila fila = new Fila();
+            Pilha pilha = new Pilha();
+            String[] splitFita = fita.split("");
+            int estado = 0;
+
+            for (int i = 0; i < fita.length(); i++) {
+                fila.inserir(splitFita[i]);
+            }
+
+            for (int i = 0; i < fita.length(); i++) {
+                if(estado == 0 && pilha.mostrarAtual() == null && fila.mostrarPrimeiro().equals("a") ||
+                   estado == 0 && pilha.mostrarAtual() == null && fila.mostrarPrimeiro().equals("b")){
+                    pilha.inserir(fila.mostrarPrimeiro());
+                    fila.remover();
+                    System.out.println("aceito");
+                } else if (estado == 0 && pilha.mostrarAtual() == null && fila.mostrarPrimeiro().equals("c")) {
+                    fila.remover();
+                    estado = 1;
+                    System.out.println("aceito");
+                } else if (estado == 0 && pilha.mostrarAtual().equals("a") && fila.mostrarPrimeiro().equals("a") || 
+                   estado == 0 && pilha.mostrarAtual().equals("b") && fila.mostrarPrimeiro().equals("a") ||
+                   estado == 0 && pilha.mostrarAtual().equals("a") && fila.mostrarPrimeiro().equals("b") ||
+                   estado == 0 && pilha.mostrarAtual().equals("b") && fila.mostrarPrimeiro().equals("b")){
+                    pilha.inserir(fila.mostrarPrimeiro());
+                    fila.remover();
+                    System.out.println("aceito");
+                } else if(estado == 0 && pilha.mostrarAtual().equals("a") && fila.mostrarPrimeiro().equals("c")) {
+                    estado = 1;
+                    pilha.inserir("a");
+                    fila.remover();
+                    System.out.println("aceito");
+                } else if(estado == 0 && pilha.mostrarAtual().equals("b") && fila.mostrarPrimeiro().equals("c")) {
+                    estado = 1;
+                    pilha.inserir("b");
+                    fila.remover();
+                    System.out.println("aceito");
+                } else if(estado == 1 && pilha.mostrarAtual().equals("a") && fila.mostrarPrimeiro().equals("a") ||
+                          estado == 1 && pilha.mostrarAtual().equals("b") && fila.mostrarPrimeiro().equals("b")) {
+                    pilha.remover();
+                    System.out.println("aceito");
+                } else {
+                    System.out.println("Nao aceito fila: " + fila.mostrarPrimeiro() + " pilha: " + pilha.mostrarAtual() + " estado: " + estado);
+                    notFita.setVisible(true);
+                    revalidate();
+                    repaint();
+                }
+            }
+        } catch (Exception e) {
+            notFita.setVisible(true);
         }
         
-        for (int i = 0; i < fita.length(); i++) {
-            if(estado == 0 && pilha.mostrarAtual() == null && fila.mostrarPrimeiro().equals("a") ||
-               estado == 0 && pilha.mostrarAtual() == null && fila.mostrarPrimeiro().equals("b")){
-                pilha.inserir(fila.mostrarPrimeiro());
-                fila.remover();
-                System.out.println("aceito");
-            } else if (estado == 0 && pilha.mostrarAtual() == null && fila.mostrarPrimeiro().equals("c")) {
-                fila.remover();
-                estado = 1;
-                System.out.println("aceito");
-            } else if (estado == 0 && pilha.mostrarAtual().equals("a") && fila.mostrarPrimeiro().equals("a") || 
-               estado == 0 && pilha.mostrarAtual().equals("b") && fila.mostrarPrimeiro().equals("a") ||
-               estado == 0 && pilha.mostrarAtual().equals("a") && fila.mostrarPrimeiro().equals("b") ||
-               estado == 0 && pilha.mostrarAtual().equals("b") && fila.mostrarPrimeiro().equals("b")){
-                pilha.inserir(fila.mostrarPrimeiro());
-                fila.remover();
-                System.out.println("aceito");
-            } else if(estado == 0 && pilha.mostrarAtual().equals("a") && fila.mostrarPrimeiro().equals("c")) {
-                estado = 1;
-                pilha.inserir("a");
-                fila.remover();
-                System.out.println("aceito");
-            } else if(estado == 0 && pilha.mostrarAtual().equals("b") && fila.mostrarPrimeiro().equals("c")) {
-                estado = 1;
-                pilha.inserir("b");
-                fila.remover();
-                System.out.println("aceito");
-            } else if(estado == 1 && pilha.mostrarAtual().equals("a") && fila.mostrarPrimeiro().equals("a") ||
-                      estado == 1 && pilha.mostrarAtual().equals("b") && fila.mostrarPrimeiro().equals("b")) {
-                pilha.remover();
-                System.out.println("aceito");
-            } else {
-                System.out.println("Nao aceito fila: " + fila.mostrarPrimeiro() + " pilha: " + pilha.mostrarAtual() + " estado: " + estado);
-            }
-        }
     }
 
     /**
@@ -78,6 +88,7 @@ public class ControleDeFluxo extends javax.swing.JFrame {
 
         textFita = new javax.swing.JTextField();
         checkFita = new javax.swing.JButton();
+        notFita = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -91,6 +102,9 @@ public class ControleDeFluxo extends javax.swing.JFrame {
             }
         });
 
+        notFita.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        notFita.setText("FITA NAO ACEITA");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -100,7 +114,11 @@ public class ControleDeFluxo extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(textFita)
                     .addComponent(checkFita, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE))
-                .addContainerGap(165, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(103, Short.MAX_VALUE)
+                .addComponent(notFita, javax.swing.GroupLayout.PREFERRED_SIZE, 435, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(73, 73, 73))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -109,7 +127,9 @@ public class ControleDeFluxo extends javax.swing.JFrame {
                 .addComponent(textFita, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(checkFita, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(240, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(notFita, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(90, Short.MAX_VALUE))
         );
 
         pack();
@@ -157,6 +177,7 @@ public class ControleDeFluxo extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton checkFita;
+    private javax.swing.JTextField notFita;
     private javax.swing.JTextField textFita;
     // End of variables declaration//GEN-END:variables
 }
