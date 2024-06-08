@@ -81,7 +81,6 @@ public class Main extends javax.swing.JFrame {
     private void testMachineButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_testMachineButtonMouseClicked
         ControleDeFluxo screen = new ControleDeFluxo();
         screen.setVisible(true);
-        this.dispose();
     }//GEN-LAST:event_testMachineButtonMouseClicked
 
     /**

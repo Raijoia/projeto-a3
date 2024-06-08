@@ -22,12 +22,17 @@ public class ControleDeFluxo extends javax.swing.JFrame {
         notFita.setVisible(false);
     }
     
+    public void fecharJanela() {
+        this.dispose();
+    }
+    
     public void analisarFita(String fita) {
         try {
             Fila fila = new Fila();
             Pilha pilha = new Pilha();
             String[] splitFita = fita.split("");
             int estado = 0;
+            boolean aceito = true;
 
             for (int i = 0; i < fita.length(); i++) {
                 fila.inserir(splitFita[i]);
@@ -69,7 +74,36 @@ public class ControleDeFluxo extends javax.swing.JFrame {
                     notFita.setVisible(true);
                     revalidate();
                     repaint();
+                    aceito = false;
+                    Timer timer = new Timer();
+
+                    TimerTask task = new TimerTask() {
+                        @Override
+                        public void run() {
+                            fecharJanela();
+                        }
+                    };
+                    
+                    timer.schedule(task, 3000);
                 }
+            }
+            
+            if (aceito) {
+                notFita.setText("Fita aceita");
+                notFita.setVisible(true);
+                revalidate();
+                repaint();
+            
+                Timer timer = new Timer();
+
+                TimerTask task = new TimerTask() {
+                    @Override
+                    public void run() {
+                        fecharJanela();
+                    }
+                };
+                
+                timer.schedule(task, 3000);
             }
         } catch (Exception e) {
             notFita.setVisible(true);
