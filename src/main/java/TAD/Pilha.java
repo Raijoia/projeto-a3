@@ -3,10 +3,12 @@ package TAD;
 public class Pilha {
   private NoLista inicio;
   private NoLista atual;
+  private int quantidade;
 
   public Pilha() {
     this.inicio = null;
     this.atual = null;
+    this.quantidade = 0;
   }
 
   public void inserir(String item) {
@@ -19,6 +21,7 @@ public class Pilha {
       atual.proximo = novoNo;
       atual = novoNo;
     }
+    quantidade++;
   }
 
   public void remover() {
@@ -30,14 +33,15 @@ public class Pilha {
         inicio = null;
         atual = null;
       }
+      quantidade--;
     }
   }
 
   public String mostrarAtual() {
     if (atual != null) {
-        return atual.item;
+      return atual.item;
     } else {
-        return null;
+      return null;
     }
   }
 
@@ -55,5 +59,9 @@ public class Pilha {
     } else {
       System.out.println("Lista Encerrada");
     }
+  }
+
+  public int mostrarQuantidade() {
+    return quantidade;
   }
 }
