@@ -37,59 +37,59 @@ public class ControleDeFluxo extends javax.swing.JFrame {
             for (int i = 0; i < fita.length(); i++) {
                 fila.inserir(splitFita[i]);
             }
+            
+            if (fita.length() == 1 && fita.equals("c")) {
+                estado = 1;
+            } else {
+                for (int i = 1; i <= fita.length(); i++) {
+                    if(estado == 0 && pilha.mostrarAtual() == null && fila.mostrarPrimeiro().equals("a") ||
+                       estado == 0 && pilha.mostrarAtual() == null && fila.mostrarPrimeiro().equals("b")){
+                        pilha.inserir(fila.mostrarPrimeiro());
+                        fila.remover();
+                    } else if (estado == 0 && pilha.mostrarAtual() == null && fila.mostrarPrimeiro().equals("c")) {
+                        System.out.println("estado " + estado);
+                        fila.remover();
+                        estado = 1;
+                    } else if (estado == 0 && pilha.mostrarAtual().equals("a") && fila.mostrarPrimeiro().equals("a") || 
+                       estado == 0 && pilha.mostrarAtual().equals("b") && fila.mostrarPrimeiro().equals("a") ||
+                       estado == 0 && pilha.mostrarAtual().equals("a") && fila.mostrarPrimeiro().equals("b") ||
+                       estado == 0 && pilha.mostrarAtual().equals("b") && fila.mostrarPrimeiro().equals("b")){
+                        pilha.inserir(fila.mostrarPrimeiro());
+                        fila.remover();
+                    } else if(estado == 0 && pilha.mostrarAtual().equals("a") && fila.mostrarPrimeiro().equals("c")) {
+                        estado = 1;
+                        fila.remover();
+                    } else if(estado == 0 && pilha.mostrarAtual().equals("b") && fila.mostrarPrimeiro().equals("c")) {
+                        estado = 1;
+                        fila.remover();
+                    } else if(estado == 1 && pilha.mostrarAtual().equals("a") && fila.mostrarPrimeiro().equals("a") ||
+                              estado == 1 && pilha.mostrarAtual().equals("b") && fila.mostrarPrimeiro().equals("b")) {
+                        pilha.remover();
+                        fila.remover();
+                    } else {
+                        System.out.println("Nao aceito estado: " + estado + " pilha: " + pilha.mostrarAtual() + " fila: " + fila.mostrarPrimeiro());
+                        notFita.setVisible(true);
+                        revalidate();
+                        repaint();
+                        aceito = false;
+                        Timer timer = new Timer();
 
-            for (int i = 0; i < fita.length(); i++) {
-                if(estado == 0 && pilha.mostrarAtual() == null && fila.mostrarPrimeiro().equals("a") ||
-                   estado == 0 && pilha.mostrarAtual() == null && fila.mostrarPrimeiro().equals("b")){
-                    pilha.inserir(fila.mostrarPrimeiro());
-                    fila.remover();
-                    System.out.println("aceito");
-                } else if (estado == 0 && pilha.mostrarAtual() == null && fila.mostrarPrimeiro().equals("c")) {
-                    fila.remover();
-                    estado = 1;
-                    System.out.println("aceito");
-                } else if (estado == 0 && pilha.mostrarAtual().equals("a") && fila.mostrarPrimeiro().equals("a") || 
-                   estado == 0 && pilha.mostrarAtual().equals("b") && fila.mostrarPrimeiro().equals("a") ||
-                   estado == 0 && pilha.mostrarAtual().equals("a") && fila.mostrarPrimeiro().equals("b") ||
-                   estado == 0 && pilha.mostrarAtual().equals("b") && fila.mostrarPrimeiro().equals("b")){
-                    pilha.inserir(fila.mostrarPrimeiro());
-                    fila.remover();
-                    System.out.println("aceito");
-                } else if(estado == 0 && pilha.mostrarAtual().equals("a") && fila.mostrarPrimeiro().equals("c")) {
-                    estado = 1;
-                    pilha.inserir("a");
-                    fila.remover();
-                    System.out.println("aceito");
-                } else if(estado == 0 && pilha.mostrarAtual().equals("b") && fila.mostrarPrimeiro().equals("c")) {
-                    estado = 1;
-                    pilha.inserir("b");
-                    fila.remover();
-                    System.out.println("aceito");
-                } else if(estado == 1 && pilha.mostrarAtual().equals("a") && fila.mostrarPrimeiro().equals("a") ||
-                          estado == 1 && pilha.mostrarAtual().equals("b") && fila.mostrarPrimeiro().equals("b")) {
-                    pilha.remover();
-                    System.out.println("aceito");
-                } else {
-                    System.out.println("Nao aceito fila: " + fila.mostrarPrimeiro() + " pilha: " + pilha.mostrarAtual() + " estado: " + estado);
-                    notFita.setVisible(true);
-                    revalidate();
-                    repaint();
-                    aceito = false;
-                    Timer timer = new Timer();
+                        TimerTask task = new TimerTask() {
+                            @Override
+                            public void run() {
+                                fecharJanela();
+                            }
+                        };
 
-                    TimerTask task = new TimerTask() {
-                        @Override
-                        public void run() {
-                            fecharJanela();
-                        }
-                    };
-                    
-                    timer.schedule(task, 3000);
+                        timer.schedule(task, 3000);
+                    }
                 }
             }
+
             
-            if (aceito) {
-                notFita.setText("Fita aceita");
+            
+            if (aceito && estado == 1 && pilha.mostrarQuantidade() == 1 || aceito && estado == 1 && pilha.mostrarQuantidade() == 0) {
+                notFita.setText("FITA ACEITA");
                 notFita.setVisible(true);
                 revalidate();
                 repaint();
@@ -104,11 +104,26 @@ public class ControleDeFluxo extends javax.swing.JFrame {
                 };
                 
                 timer.schedule(task, 3000);
+            } else {
+                System.out.println("Nao aceito estado: " + estado + " pilha: " + pilha.mostrarAtual() + " fila: " + fila.mostrarPrimeiro());
+                notFita.setVisible(true);
+                revalidate();
+                repaint();
+                aceito = false;
+                Timer timer = new Timer();
+
+                TimerTask task = new TimerTask() {
+                    @Override
+                    public void run() {
+                        fecharJanela();
+                    }
+                };
+                    
+                timer.schedule(task, 3000);
             }
         } catch (Exception e) {
             notFita.setVisible(true);
         }
-        
     }
 
     /**
@@ -158,9 +173,8 @@ public class ControleDeFluxo extends javax.swing.JFrame {
                 .addGap(99, 99, 99)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(textFita, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(notFita, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(checkFita, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(notFita, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(checkFita, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(98, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
